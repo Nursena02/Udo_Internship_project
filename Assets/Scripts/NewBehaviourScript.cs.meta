@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 768686538b611eb418da69e46da77816
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - zemin: {fileID: 6598746228546602735, guid: 3297693f66e8ae84394de8aa9d1b019d, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
