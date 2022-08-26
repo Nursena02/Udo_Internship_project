@@ -5,9 +5,10 @@ using UnityEngine;
 public class branch_clone : MonoBehaviour
 {
     // Start is called before the first frame update
-    public GameObject[] array;
+    //public GameObject[] array;
     public GameObject branch;
-   // public Rigidbody dal;
+    public GameObject branch2;
+   // public Rigidbody branch;
     int zpos;
     float x = 0;
 
@@ -15,12 +16,12 @@ public class branch_clone : MonoBehaviour
     
     void Start()
     {
-        int randomnum;
+       // int randomnum;
         for (int i = 0; i < 20; i++)
         {
-            randomnum = Random.Range(0,array.Length);
+           // randomnum = Random.Range(0,array.Length);
             // prefab[randomnum] = dal;
-            zpos += 5;
+            zpos += 10;
 
             Spawner();
         }
@@ -30,8 +31,10 @@ public class branch_clone : MonoBehaviour
 
     void Spawner()
     {
-        //Instantiate(dal);
+ 
         Instantiate(branch, new Vector3(transform.position.x, transform.position.y, transform.position.z+ zpos), branch.transform.rotation);
+        Instantiate(branch2, new Vector3(transform.position.x, transform.position.y, transform.position.z + zpos), branch2.transform.rotation);
+
     }
 
 }

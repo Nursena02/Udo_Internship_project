@@ -1,71 +1,105 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class maymun_hareket : MonoBehaviour
 {
-    //Vector3 right=new Vector3(-20f,0,0);
-    //Vector3 temp = new Vector3(20f, 0, 0);
+    public GameObject lost_panel;
     public float maxHealth;
     public float health;
     public HealthBar healthBar;
     public GameObject monkey;
-    private bool tap, swipeLeft, swipeRight, hanging;
-    private bool isDraging;
+    private bool  swipeLeft, swipeRight, hanging,falling;
     private Vector2 startTouch, swipeDelta;
     Animator m_Animator;
+    
     public void TakeDamage()
     {
-        health -= Mathf.Min(Random.value, health / 4f);
+        health += 5;
         healthBar.UpdateHealthBar();
+        Debug.Log("update");
+        
     }
-        void Start() => m_Animator = GetComponent<Animator>();
-
+    public void TakeDamage2()
+    {
+        health -= 20;
+        healthBar.UpdateHealthBar();
+        Debug.Log("update2");
+    }
+    
+    void Start() => m_Animator = GetComponent<Animator>();
+    
     // Update is called once per frame
     private Vector3 _mousePos;
 
-
+    
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            TakeDamage();
-            // _mousePos = Input.mousePosition;
-            _mousePos = monkey.transform.position;
-            startTouch = Input.mousePosition;
+            
+             _mousePos = Input.mousePosition;
+           
         }
-        if (Input.GetMouseButtonUp(0))
+       else if (Input.GetMouseButtonUp(0))
         {
-            swipeDelta = Input.mousePosition - _mousePos;
+           
             if (_mousePos.x < Input.mousePosition.x)
             {
+               
+                
                 Debug.Log("Right");
-                // monkey.transform.position-=temp;
-                m_Animator.SetTrigger("right");
-                //Right
-                Reset();
+              
+                m_Animator.Play("right",0);
+                
+            
             }
+
             else if (_mousePos.x > Input.mousePosition.x)
             {
+               
                 Debug.Log("Left");
-                // monkey.transform.position += temp;
-                m_Animator.SetTrigger("left");
-                Reset();
+               m_Animator.Play("left", 0);
+
                 //Left
 
-                
-
             }
-            void Reset()
+
+          }
+        if (health <= 0)
+        {
+            Debug.Log("falling");
+            m_Animator.Play("falling");
+            lost_panel.SetActive(true);
+            Invoke("turn_main",5);
+        }
+       
+    }
+    public void turn_main()
+    {
+        SceneManager.LoadScene(0);
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if (health > 0)
+        {
+            if (other.gameObject.tag == "banana")
             {
-                startTouch = swipeDelta = Vector3.zero;
+                other.gameObject.SetActive(false);
+                TakeDamage();
+            }
+
+
+            if (other.gameObject.tag == "black_banana")
+            {
+                other.gameObject.SetActive(false);
+                TakeDamage2();
             }
         }
     }
 
-    public Vector2 SwipeDelta => swipeDelta;
-    public Vector2 SwipeLeft { get { return SwipeLeft; } }
-    public Vector2 SwipeRight { get { return SwipeRight; } }
+
 
 }
+        
